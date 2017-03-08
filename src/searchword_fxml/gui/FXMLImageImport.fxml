@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="595.0" prefWidth="633.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="searchword_fxml.gui.FXMLImageImportController">
+    <stylesheets>
+        <URL value="@Login.css" />
+      <URL value="@Metro-UI.css" />
+    </stylesheets>
+   <children>
+      <BorderPane fx:id="bpArea" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Button fx:id="btnOpenFile" layoutX="14.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleOpenImageFile" styleClass="btn" text="Open Image File" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+      <Button fx:id="btnImport" layoutX="527.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleImport" styleClass="btn" text="Import" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <ProgressBar fx:id="pbar" layoutX="328.0" layoutY="561.0" prefWidth="200.0" progress="0.0" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="105.0" />
+      <CheckBox fx:id="cbCleanUp" layoutX="160.0" layoutY="560.0" mnemonicParsing="false" selected="true" text="Clean Up" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="160.0" />
+   </children>
+</AnchorPane>

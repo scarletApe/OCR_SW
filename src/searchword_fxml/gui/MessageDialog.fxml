@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="190.0" prefWidth="452.0" styleClass="background" stylesheets="@Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="searchword_fxml.gui.FXML_MessageDialog_Controller">
+   <children>
+      <ImageView fx:id="ivIcon" fitHeight="50.0" fitWidth="50.0" layoutX="379.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@warning.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="374.0" layoutY="138.0" mnemonicParsing="false" onAction="#handleOkay" styleClass="btn" text="Ok" />
+      <TextArea fx:id="taMessage" editable="false" layoutX="36.0" layoutY="89.0" prefHeight="86.0" prefWidth="323.0" wrapText="true" />
+      <Separator layoutY="71.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label fx:id="labelMessage" layoutX="36.0" layoutY="26.0" text="Oops, Something went wrong...">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
