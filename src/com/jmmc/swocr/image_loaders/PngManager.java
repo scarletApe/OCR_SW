@@ -25,7 +25,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.imageio.ImageIO;
 
 /**
@@ -34,66 +33,64 @@ import javax.imageio.ImageIO;
  */
 public class PngManager implements ManejadorImagen {
 
-	/**
-	 * Al momento no se puede guardar una imagen a este formato.
-	 */
-	@Override
-	public void guardarArregloEnImagen(String archivo, byte[][] arreglo) {
-	}
+    @Override
+    public void guardarArregloEnImagen(String archivo, byte[][] arreglo) {
+    }
 
-	@Override
-	public byte[][] cargarArregloDeImagen(URI archivo) {
-		return null;
-	}
+    @Override
+    public byte[][] cargarArregloDeImagen(URI archivo) {
+        return null;
+    }
 
-	@Override
-	public byte[] flattenArray(byte[][] arreglo) {
-		return null;
-	}
+    @Override
+    public byte[] flattenArray(byte[][] arreglo) {
+        return null;
+    }
 
-	/**
-	 * Este metodo toma un uri que apunte a una imagen png y la carga en un
-	 * arreglo de bytes, donde un pixel blanco es cero y un pixel negro es uno.
-	 * Este metodo regresa un null si la imagen es de color.
-	 *
-	 * @param archivo
-	 * @return
-	 */
-	@Override
-	public byte[] cargarArregloFlatDeImagen(URI archivo) {
-		byte[] data = null;
+    /**
+     * Este metodo toma un uri que apunte a una imagen png y la carga en un
+     * arreglo de bytes, donde un pixel blanco es cero y un pixel negro es uno.
+     * Este metodo regresa un null si la imagen es de color.
+     *
+     * @param archivo
+     * @return
+     */
+    @Override
+    public byte[] cargarArregloFlatDeImagen(URI archivo) {
+        byte[] data = null;
 
-		try {
-			BufferedImage img = ImageIO.read(archivo.toURL());
+        try {
+            BufferedImage img = ImageIO.read(archivo.toURL());
 
-			PixelGrabber grabber = new PixelGrabber(img, 0, 0, -1, -1, false);
+            PixelGrabber grabber
+                    = new PixelGrabber(img, 0, 0, -1, -1, false);
 
-			if (grabber.grabPixels()) {
+            if (grabber.grabPixels()) {
 
-				if (isGreyscaleImage(grabber)) {
-//					System.out.println("is grey");
-					data = (byte[]) grabber.getPixels();
+                if (isGreyscaleImage(grabber)) {
+                    System.out.println("is grey");
+                    data = (byte[]) grabber.getPixels();
 
-					for (int i = 0; i < data.length; i++) {
-						data[i] = (data[i] == 0) ? (byte) 1 : (byte) 0;
-					}
+                    for (int i = 0; i < data.length; i++) {
+                        data[i] = (data[i] == 0) ? (byte) 1 : (byte) 0;
+                    }
 
-				} else {
-					System.out.println("its rgb");
-				}
-			}
-		} catch (InterruptedException e1) {
-			Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, e1);
-		} catch (MalformedURLException ex) {
-			Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (IOException ex) {
-			Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return data;
-	}
-
-	public static final boolean isGreyscaleImage(PixelGrabber pg) {
-		return pg.getPixels() instanceof byte[];
-	}
+                } else {
+                    System.out.println("its rgb");
+                }
+            }
+        } catch (InterruptedException e1) {
+            Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, e1);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
+    }
+    
+    public static final boolean isGreyscaleImage(PixelGrabber pg) {
+        return pg.getPixels() instanceof byte[];
+    }
 
 }

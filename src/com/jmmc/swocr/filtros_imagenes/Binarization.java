@@ -18,9 +18,9 @@
 //</editor-fold>
 package com.jmmc.swocr.filtros_imagenes;
 
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
 
-public class Binarization {
+public class Binarization  {
 
 	static final int WHITE = 0x00FFFFFF;
 	static final int BLACK = 0x00000000;

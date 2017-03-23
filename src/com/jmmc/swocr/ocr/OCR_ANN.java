@@ -24,15 +24,17 @@ public class OCR_ANN {
 	private final MLP red;
 	private final ManejadorImagen manejador;
 
-	public OCR_ANN(String route) {
-		// cargar la red ya entrenada dentro del proyecto dentro de el jar
+	public OCR_ANN() {
+		//cargar la red ya entrenada dentro del proyecto
+		//dentro de el jar
 		ClassLoader classLoader = getClass().getClassLoader();
-		InputStream is = classLoader.getResourceAsStream(route);
-		//"com/jmmc/swocr/ocr/red_2_96.0773803722834.ser"
+//		InputStream is = classLoader.getResourceAsStream("com/jmmc/swocr/ocr/Red_OCR.ser");
 		
+		InputStream is = classLoader.getResourceAsStream("com/jmmc/swocr/ocr/red_2_96.0773803722834.ser");
+		//red_2_96.0773803722834.ser
 		red = new RNSerializer().deserializeRed(is);
 
-		// iniciar el image manager
+		//iniciar el image manager
 		manejador = new PngManager();
 	}
 

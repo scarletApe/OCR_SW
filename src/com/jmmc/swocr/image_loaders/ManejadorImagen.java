@@ -23,12 +23,9 @@ import java.net.URI;
  * @author juanmartinez
  */
 public interface ManejadorImagen {
-
-	public void guardarArregloEnImagen(String archivo, byte[][] arreglo);
-
-	public byte[][] cargarArregloDeImagen(URI archivo);
-
-	public byte[] cargarArregloFlatDeImagen(URI archivo);
-
-	public byte[] flattenArray(byte[][] arreglo);
+    
+    public void guardarArregloEnImagen(String archivo, byte[][] arreglo);
+    public byte[][] cargarArregloDeImagen(URI archivo);
+    public byte[] cargarArregloFlatDeImagen(URI archivo);
+    public byte[] flattenArray(byte[][] arreglo);
 }

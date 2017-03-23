@@ -43,9 +43,9 @@ public class TrainMany {
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 } };
 
 	public void run() {
-		int num_nets = 50;
-		int epochs = 3000;
-
+		int num_nets = 10;
+		int epochs = 1800;
+		
 		int num_in = 48;
 		int num_hidden = 36;
 		int num_out = 26;
@@ -55,7 +55,7 @@ public class TrainMany {
 
 		// load the images into memory+++++++++++++++++++++++++++
 		System.out.println("Cargando imagenes a memoria++++++++++++++++");
-		File inputDir = new File("/Users/juanmartinez/Desktop/SW_OCR/letter_samples3/");
+		File inputDir = new File("/Users/juanmartinez/Desktop/letter_samples3/");
 		File[] listOfFiles = inputDir.listFiles();
 		// inizializar los arreglos de datos de entrada y salida
 		byte[][] entrada = new byte[listOfFiles.length][];
@@ -81,7 +81,7 @@ public class TrainMany {
 				// System.out.println("\tArreglo Tamaño:" + entrada[i].length);
 
 				caracter = file.getName().charAt(0);
-				// System.out.println("\nCaracter=" + caracter);
+//				System.out.println("\nCaracter=" + caracter);
 
 				index = caracter - 65;
 				salida[i] = PATRONES_SALIDA[index];
@@ -107,23 +107,24 @@ public class TrainMany {
 
 			// probar la red
 			int num_correct = 0;
-			for (int j = 0; j < entrada.length; j++) {
+            for (int j = 0; j < entrada.length; j++) {
 
-				char expected = check(binarizeArray(salida[j]));
+                char expected = check(binarizeArray(salida[j]));
 
-				byte[] binarizedResult = binarizeArray(red.clasificar(entrada[j]));
+                byte[] binarizedResult = binarizeArray(red.clasificar(entrada[j]));
 
-				char charResult = check(binarizedResult);
+                char charResult = check(binarizedResult);
 
-				if (expected == charResult) {
-					num_correct++;
-				}
-			}
-			double precision = (double) num_correct / (double) entrada.length;
-			precision = precision * 100;
+                if (expected == charResult) {
+                    num_correct++;
+                }
+            }
+            double precision = (double) num_correct / (double) entrada.length;
+            precision = precision * 100;
 
+			
 			// almacenar la red
-			filename = new File(saveFolder + File.separator + "red_" + i + "_" + precision + ".ser");
+			filename = new File(saveFolder + File.separator + "red_" + i + "_"+precision+".ser");
 			ser.serializeRed(red, filename.toString());
 		}
 	}
@@ -151,7 +152,7 @@ public class TrainMany {
 		}
 		return bi;
 	}
-
+	
 	private File createDirectory(String dir) {
 		File f = new File(dir);
 		if (!f.exists()) {

@@ -5,17 +5,12 @@
  */
 package searchword_fxml.gui;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.imageio.ImageIO;
+import com.jmmc.swocr.searchword.CrossWord;
 
-import com.jmmc.swocr.searchword.CrossWord_Image;
-
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,8 +19,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -36,16 +31,14 @@ import javafx.stage.StageStyle;
  */
 public class FXML_SearchWord_Controller implements Initializable {
 
-	// @FXML
-	// private WebView editorPane;
 	@FXML
-	private BorderPane bpCenter;
+	private WebView editorPane;
 	@FXML
 	private TextField textField;
 	@FXML
 	private Button buttonSearch;
 
-	private CrossWord_Image cw;
+	private CrossWord cw;
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -69,18 +62,11 @@ public class FXML_SearchWord_Controller implements Initializable {
 		// Show open file dialog
 		File file = fileChooser.showOpenDialog(SearchWord_FXML.stagee);
 		if (file != null) {
-			cw = new CrossWord_Image();
+			cw = new CrossWord();
 			cw.loadCrossWord(file.toString());
 
-			// final WebEngine webEngine = editorPane.getEngine();
-			// webEngine.loadContent(cw.toString());
-
-			BufferedImage img = cw.getImage();
-			ImageView imageView = new ImageView(SwingFXUtils.toFXImage(img, null));
-			bpCenter.setCenter(imageView);
-
-			SearchWord_FXML.stagee.setHeight(img.getHeight() + 100);
-
+			final WebEngine webEngine = editorPane.getEngine();
+			webEngine.loadContent(cw.toString());
 			// System.out.println(cw);
 			SearchWord_FXML.stagee.setTitle(file.getName());
 
@@ -101,7 +87,7 @@ public class FXML_SearchWord_Controller implements Initializable {
 			fileChooser.setTitle("Export to HTML");
 			File file = fileChooser.showSaveDialog(SearchWord_FXML.stagee);
 			if (file != null) {
-				cw.saveToHTML(file.toString(), file.getName());
+				cw.saveToHTML(file.toString());
 			}
 		}
 	}
@@ -123,26 +109,6 @@ public class FXML_SearchWord_Controller implements Initializable {
 		}
 	}
 
-	// handleExportImage
-	@FXML
-	protected void handleExportImage(ActionEvent e) throws IOException {
-		if (cw != null) {
-			FileChooser fileChooser = new FileChooser();
-
-			// Set extension filter
-			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG file ", "*.png");
-			fileChooser.getExtensionFilters().add(extFilter);
-
-			fileChooser.setTitle("Export Image to PNG");
-			File file = fileChooser.showSaveDialog(SearchWord_FXML.stagee);
-			if (file != null) {
-				// cw.saveToText(file.toString());
-				BufferedImage img = cw.getImage();
-				ImageIO.write(img, "png", file);
-			}
-		}
-	}
-
 	@FXML
 	protected void handleClose(ActionEvent e) {
 		System.exit(0);
@@ -152,12 +118,8 @@ public class FXML_SearchWord_Controller implements Initializable {
 	protected void handleClear(ActionEvent e) {
 		cw = null;
 
-		// final WebEngine webEngine = editorPane.getEngine();
-		// webEngine.loadContent("");
-
-		BufferedImage img = new BufferedImage(10, 10, BufferedImage.TYPE_BYTE_GRAY);
-		ImageView imageView = new ImageView(SwingFXUtils.toFXImage(img, null));
-		bpCenter.setCenter(imageView);
+		final WebEngine webEngine = editorPane.getEngine();
+		webEngine.loadContent("");
 
 		textField.setText("");
 		textField.setDisable(true);
@@ -172,13 +134,8 @@ public class FXML_SearchWord_Controller implements Initializable {
 		if (s.isEmpty()) {
 		} else if (cw.findWord(s)) {
 			// editorPane.setText(cw.toString());
-			// final WebEngine webEngine = editorPane.getEngine();
-			// webEngine.loadContent(cw.toString());
-
-			BufferedImage img = cw.getImage();
-			ImageView imageView = new ImageView(SwingFXUtils.toFXImage(img, null));
-			bpCenter.setCenter(imageView);
-
+			final WebEngine webEngine = editorPane.getEngine();
+			webEngine.loadContent(cw.toString());
 			textField.setText("");
 		} else {
 			textField.setText("");
@@ -211,41 +168,12 @@ public class FXML_SearchWord_Controller implements Initializable {
 		}
 	}
 
-	// handleAbout
-	@FXML
-	protected void handleAbout(ActionEvent e) {
-		// the the message dialog
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/searchword_fxml/gui/MessageDialog.fxml"));
-			Stage stage = new Stage(StageStyle.DECORATED);
-			stage.setTitle("");
-			Parent p = (Parent) loader.load();
-			p.getStylesheets().add(getClass().getResource("/searchword_fxml/gui/Metro-UI.css").toExternalForm());
-			stage.setScene(new Scene(p));
-			FXML_MessageDialog_Controller controller = loader.<FXML_MessageDialog_Controller> getController();
-			stage.show();
-			stage.setResizable(false);
-			controller.initData(stage, 3, "This program solves WordSearch puzzles. You can import an image with OCR. "
-					+ "The OCR in this system was implemented with a Neural Network. \nThis "
-					+ "software uses the Backward Oracle Matching Algorithm." + "\nCopyleft 2017 Juan Manuel Martinez");
-		} catch (Exception ex) {
-			System.out.println("Error " + ex);
-		}
-	}
-
 	protected void setCrossWord(char[][] matrix) {
-		cw = new CrossWord_Image();
+		cw = new CrossWord();
 		cw.setCrossWord(matrix);
 
-		// final WebEngine webEngine = editorPane.getEngine();
-		// webEngine.loadContent(cw.toString());
-
-		BufferedImage img = cw.getImage();
-		ImageView imageView = new ImageView(SwingFXUtils.toFXImage(img, null));
-		bpCenter.setCenter(imageView);
-
-		SearchWord_FXML.stagee.setHeight(img.getHeight() + 100);
-
+		final WebEngine webEngine = editorPane.getEngine();
+		webEngine.loadContent(cw.toString());
 		// System.out.println(cw);
 		SearchWord_FXML.stagee.setTitle("Imported Image");
 

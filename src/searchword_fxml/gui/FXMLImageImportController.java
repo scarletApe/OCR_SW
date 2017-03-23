@@ -28,7 +28,7 @@ import com.jmmc.swocr.filtros_imagenes.ProcesadorEscala;
 import com.jmmc.swocr.filtros_imagenes.ProcesadorImagen;
 import com.jmmc.swocr.filtros_imagenes.ProcesadorInclinacion;
 import com.jmmc.swocr.filtros_imagenes.ProcesadorZhangThinning;
-import com.jmmc.swocr.ocr.EnsembleClassifier;
+import com.jmmc.swocr.ocr.OCR_ANN;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -37,19 +37,14 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import net.sourceforge.javaocr.ocrPlugins.CharacterExtractor;
 import net.sourceforge.javaocr.ocrPlugins.CharacterTracer;
 import net.sourceforge.javaocr.ocrPlugins.LineExtractor;
@@ -69,7 +64,7 @@ public class FXMLImageImportController implements Initializable {
 	private Button btnImport;
 	@FXML
 	private ProgressBar pbar;
-
+	
 	@FXML
 	private CheckBox cbCleanUp;
 
@@ -85,7 +80,7 @@ public class FXMLImageImportController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-	
+		// TODO
 	}
 
 	@FXML
@@ -132,8 +127,8 @@ public class FXMLImageImportController implements Initializable {
 			System.out.println("Staring Service");
 
 			ImportarService service = new ImportarService();
-			service.init(inputFile, cbCleanUp.isSelected());
-
+			service.init(inputFile,cbCleanUp.isSelected());
+			
 			service.setOnSucceeded((WorkerStateEvent t) -> {
 				Foo foo = service.getValue();
 
@@ -141,54 +136,16 @@ public class FXMLImageImportController implements Initializable {
 				char[][] matrix = foo.getMatrix();
 				papa.setCrossWord(matrix);
 
-				// set the image in the border pane
+				//set the image in the border pane
 				bpArea.setCenter(foo.getImageView());
-
-				// the the message dialog
-				try {
-					FXMLLoader loader = new FXMLLoader(
-							getClass().getResource("/searchword_fxml/gui/MessageDialog.fxml"));
-					Stage stage = new Stage(StageStyle.DECORATED);
-					stage.setTitle("");
-					Parent p = (Parent) loader.load();
-					p.getStylesheets()
-							.add(getClass().getResource("/searchword_fxml/gui/Metro-UI.css").toExternalForm());
-					stage.setScene(new Scene(p));
-					FXML_MessageDialog_Controller controller = loader.<FXML_MessageDialog_Controller> getController();
-					stage.show();
-					stage.setResizable(false);
-					controller.initData(stage, 1, "The Image was successfully imported with the OCR neural net.");
-				} catch (Exception ex) {
-					System.out.println("Error " + ex);
-				}
 			});
-
+			
 			service.setOnFailed(new EventHandler<WorkerStateEvent>() {
-				@Override
-				public void handle(WorkerStateEvent t) {
-					Throwable ouch = service.getException();
-					System.out.println(ouch.getClass().getName() + " -> " + ouch.getMessage());
-
-					// the the message dialog
-					try {
-						FXMLLoader loader = new FXMLLoader(
-								getClass().getResource("/searchword_fxml/gui/MessageDialog.fxml"));
-						Stage stage = new Stage(StageStyle.DECORATED);
-						stage.setTitle("");
-						Parent p = (Parent) loader.load();
-						p.getStylesheets()
-								.add(getClass().getResource("/searchword_fxml/gui/Metro-UI.css").toExternalForm());
-						stage.setScene(new Scene(p));
-						FXML_MessageDialog_Controller controller = loader
-								.<FXML_MessageDialog_Controller> getController();
-						stage.show();
-						stage.setResizable(false);
-						controller.initData(stage, 2, "The image import failed.\n Error: " + ouch.toString());
-					} catch (Exception ex) {
-						System.out.println("Error " + ex.getMessage());
-					}
-				}
-			});
+				   @Override public void handle(WorkerStateEvent t) {
+					     Throwable ouch = service.getException();
+					     System.out.println(ouch.getClass().getName() + " -> " + ouch.getMessage());
+					   }
+					 });
 			pbar.progressProperty().bind(service.progressProperty());
 			service.start();
 
@@ -206,7 +163,7 @@ class ImportarService extends Service<Foo> {
 	private File inputFile;
 	private boolean cleanUp;
 
-	public void init(File inputFile, boolean cleanUp) {
+	public void init(File inputFile,boolean cleanUp) {
 		this.inputFile = inputFile;
 		this.cleanUp = cleanUp;
 	}
@@ -232,7 +189,7 @@ class ImportarService extends Service<Foo> {
 				img = bin.filter(img);
 				File greyImage = new File(greyDir + File.separator + "image.png");
 				ImageIO.write(img, "png", greyImage);
-				updateProgress(1, 10); 
+				updateProgress(1, 10); // TODO
 
 				// apply character tracing+++++++++++++++++++++++++
 				// create a copy of the grey scale image in color
@@ -243,20 +200,20 @@ class ImportarService extends Service<Foo> {
 				g.dispose();
 				File colorImageFile = new File(greyDir + File.separator + "image_color.png");
 				ImageIO.write(coloredImage, "png", colorImageFile);
-				updateProgress(2, 10); 
+				updateProgress(2, 10); // TODO
 
 				CharacterTracer ct = new CharacterTracer();
 				coloredImage = ct.getTracedImage(colorImageFile);
 				ImageView imageView = new ImageView(SwingFXUtils.toFXImage(coloredImage, null));
 				foo.setImageView(imageView);
-				updateProgress(3, 10); 
+				updateProgress(3, 10); // TODO
 
 				// seperate image into lines+++++++++++++++++++++++++
 				File lineFolder = createDirectory(
 						System.getProperty("user.home") + File.separator + "Desktop" + File.separator + "linefolder");
 				LineExtractor le = new LineExtractor();
 				le.slice(greyImage, lineFolder);
-				updateProgress(4, 10); 
+				updateProgress(4, 10); // TODO
 
 				// separate each line into individual characters++++++++
 				File charFolder = createDirectory(
@@ -267,7 +224,7 @@ class ImportarService extends Service<Foo> {
 				for (int i = 0; i < listOfFiles.length; i++) {
 					ce.slice(listOfFiles[i], charFolder, 20, 20);
 				}
-				updateProgress(5, 10);
+				updateProgress(5, 10);// TODO
 
 				// Apply image filter on the individual character images+++++++
 				ArrayList<ProcesadorImagen> procesadores = new ArrayList<>();
@@ -291,7 +248,7 @@ class ImportarService extends Service<Foo> {
 					}
 					ImageIO.write(imagen, "png", new File(filteredFolder + File.separator + name + ".png"));
 				}
-				updateProgress(6, 10);
+				updateProgress(6, 10);// TODO
 
 				// Recognize each processed character and build the matrix++++++
 				File[] listOfFilteredFiles = filteredFolder.listFiles();
@@ -309,7 +266,7 @@ class ImportarService extends Service<Foo> {
 					parsed[i][0] = Integer.parseInt(split[1]);
 					parsed[i][1] = Integer.parseInt(split[3]);
 				}
-				updateProgress(7, 10); 
+				updateProgress(7, 10); // TODO
 				// find the max number of lines
 				int max_lines = 0;
 				for (int i = 0; i < parsed.length; i++) {
@@ -327,19 +284,17 @@ class ImportarService extends Service<Foo> {
 					}
 				}
 				System.out.println("max_chars=" + max_chars);
-				updateProgress(8, 10); 
+				updateProgress(8, 10); // TODO
 
 				// create the array to hold the OCRed info
 				char[][] matrix = new char[max_lines + 1][max_chars + 1];
 
 				// classify each filtered image
-//				OCR_ANN ocr = new OCR_ANN(); //TODO
-				EnsembleClassifier ensemble = new EnsembleClassifier();
+				OCR_ANN ocr = new OCR_ANN();
 				for (int i = 0; i < listOfFilteredFiles.length; i++) {
-//					matrix[parsed[i][0]][parsed[i][1]] = ocr.clasificar(listOfFilteredFiles[i]);
-					matrix[parsed[i][0]][parsed[i][1]] = ensemble.clasificar(listOfFilteredFiles[i]);
+					matrix[parsed[i][0]][parsed[i][1]] = ocr.clasificar(listOfFilteredFiles[i]);
 				}
-				updateProgress(9, 10); 
+				updateProgress(9, 10); // TODO
 
 				// make the matrix lower case
 				for (int i = 0; i < matrix.length; i++) {
@@ -349,34 +304,34 @@ class ImportarService extends Service<Foo> {
 				}
 
 				foo.setMatrix(matrix);
-
-				// clean up the created directories and files
-				if (cleanUp) {
+				
+				//clean up the created directories and files
+				if(cleanUp){
 					deleteFolder(greyDir);
 					deleteFolder(lineFolder);
 					deleteFolder(charFolder);
 					deleteFolder(filteredFolder);
 				}
-				updateProgress(10, 10);
+				updateProgress(10, 10);// TODO
 
 				return foo;
 			}
 
 		};
 	}
-
+	
 	public void deleteFolder(File folder) {
-		File[] files = folder.listFiles();
-		if (files != null) { // some JVMs return null for empty dirs
-			for (File f : files) {
-				if (f.isDirectory()) {
-					deleteFolder(f);
-				} else {
-					f.delete();
-				}
-			}
-		}
-		folder.delete();
+	    File[] files = folder.listFiles();
+	    if(files!=null) { //some JVMs return null for empty dirs
+	        for(File f: files) {
+	            if(f.isDirectory()) {
+	                deleteFolder(f);
+	            } else {
+	                f.delete();
+	            }
+	        }
+	    }
+	    folder.delete();
 	}
 
 	private String removeFileSuffix(String s) {

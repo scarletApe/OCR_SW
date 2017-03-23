@@ -10,6 +10,6 @@ package com.jmmc.swocr.mlp;
  * @author juanmartinez
  */
 public interface FuncionActivacion {
-
-	public double activarNeurona(double v);
+    
+    public double activarNeurona(double v);
 }

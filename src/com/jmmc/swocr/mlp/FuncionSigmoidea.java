@@ -14,11 +14,11 @@ import java.io.Serializable;
  */
 public class FuncionSigmoidea implements FuncionActivacion, Serializable {
 
-	private static final long serialVersionUID = 1L;
-
-	@Override
-	public double activarNeurona(double v) {
-		return 1.0 / (1.0 + Math.exp(-v));
-	}
+    private static final long serialVersionUID = 1L;
+    
+    @Override
+    public double activarNeurona(double v) {
+        return 1.0 / (1.0 + Math.exp(-v));
+    }
 
 }

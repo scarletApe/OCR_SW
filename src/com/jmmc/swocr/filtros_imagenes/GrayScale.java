@@ -20,14 +20,11 @@
 
 package com.jmmc.swocr.filtros_imagenes;
 
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorConvertOp;
-import java.awt.image.DataBuffer;
-import java.awt.image.WritableRaster;
+import java.awt.image.*;
+import java.awt.color.*;
 
-public class GrayScale {
-
+public class GrayScale  {
+	
 	static final int WHITE = 0x00FFFFFF;
 	static final int BLACK = 0x00000000;
 
@@ -68,7 +65,7 @@ public class GrayScale {
 		WritableRaster dwr = dest.getRaster();
 		DataBuffer ddb = dwr.getDataBuffer();
 
-		int rgb, r, g, b, gr;
+		int  rgb, r, g, b, gr;
 
 		for (int i = 0; i < size; i++) {
 			rgb = sdb.getElem(i);

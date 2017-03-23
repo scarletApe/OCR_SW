@@ -15,12 +15,11 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleOpenFile" text="Open Txt File" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleImportImage" text="Import Image " />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpenFile" text="Open File" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleImportImage" text="Import Image" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#handleExportHTML" text="Export to Html" />
                   <MenuItem mnemonicParsing="false" onAction="#handleExportText" text="Export to Txt" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleExportImage" text="Export Image" />
                   <SeparatorMenuItem mnemonicParsing="false" />
               <MenuItem mnemonicParsing="false" onAction="#handleClose" text="Close" />
             </items>
@@ -32,12 +31,18 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About" />
+              <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
+   <center>
+      <WebView fx:id="editorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin></WebView>
+   </center>
    <stylesheets>
         <URL value="@Login.css" />
       <URL value="@Metro-UI.css" />
@@ -53,7 +58,4 @@
          </padding>
       </HBox>
    </bottom>
-   <center>
-      <BorderPane fx:id="bpCenter" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
 </BorderPane>

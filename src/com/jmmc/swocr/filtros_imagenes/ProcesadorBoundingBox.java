@@ -33,21 +33,22 @@ public class ProcesadorBoundingBox extends ProcesadorImagen {
 		int maxX = getMaxX(imagen);
 		int maxY = getMaxY(imagen);
 
-		System.out.println("minx=" + minX + " miny=" + minY + " maxX=" + maxX + " maxY=" + maxY + " w="
-				+ (maxX - minX + 1) + " h=" + (maxY - minY + 1));
-
+		System.out.println("minx=" + minX + " miny=" + minY + 
+				" maxX=" + maxX + " maxY=" + maxY + 
+				" w="+ (maxX - minX + 1) + " h=" + (maxY - minY + 1));
+		
 		int width = maxX - minX + 1;
 		int height = maxY - minY + 1;
+		
+//		if(width<minX){
+//			width = minX+2;
+//		}
+//		
+//		if(height<minY){
+//			height = minY+2;
+//		}
 
-		// if(width<minX){
-		// width = minX+2;
-		// }
-		//
-		// if(height<minY){
-		// height = minY+2;
-		// }
-
-		BufferedImage subImagen = imagen.getSubimage(minX, minY, width, height);
+		BufferedImage subImagen = imagen.getSubimage(minX, minY, width, height );
 		BufferedImage imagenProcesada = new BufferedImage(subImagen.getWidth(), subImagen.getHeight(),
 				subImagen.getType());
 		imagenProcesada.setData(subImagen.getData());

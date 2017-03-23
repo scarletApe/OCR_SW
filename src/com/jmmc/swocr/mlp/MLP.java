@@ -25,72 +25,59 @@ import java.util.ArrayList;
  */
 public interface MLP {
 
-	public String getNombre();
+    public String getNombre();
 
-	public void setNombre(String nombre);
+    public void setNombre(String nombre);
 
-	public ArrayList<Point.Double> getErrores();
+    public ArrayList<Point.Double> getErrores();
 
-	public void setErrores(ArrayList<Point.Double> errores);
+    public void setErrores(ArrayList<Point.Double> errores);
 
-	/**
-	 * Con este metodo se inicializa la red neuronal, el constructor no hace
-	 * nada.
-	 *
-	 * @param num_entrada
-	 *            Numero de neuronas en la capa de entrada
-	 * @param num_ocultas
-	 *            Numero de capas ocultas y cuantas neuronas en cada oculta.
-	 * @param num_salida
-	 *            Numero de neuronas en la capa de salida.
-	 * @param funcion
-	 *            Que funcion de activacion, pero la unica que funcionará es la
-	 *            de sigmoide.
-	 */
-	public void crearRed(int num_entrada, int[] num_ocultas, int num_salida, FuncionActivacion funcion);
+    /**
+     * Con este metodo se inicializa la red neuronal, el constructor no hace
+     * nada.
+     *
+     * @param num_entrada Numero de neuronas en la capa de entrada
+     * @param num_ocultas Numero de capas ocultas y cuantas neuronas en cada
+     * oculta.
+     * @param num_salida Numero de neuronas en la capa de salida.
+     * @param funcion Que funcion de activacion, pero la unica que funcionará es
+     * la de sigmoide.
+     */
+    public void crearRed(int num_entrada, int[] num_ocultas, int num_salida, FuncionActivacion funcion);
 
-	/**
-	 * Metodo muy importante que entrena a la red neuronal. Recueren esta es una
-	 * red de aprendizaje supervisado.
-	 *
-	 * @param entradas
-	 *            Datos de entrada
-	 * @param salidas
-	 *            Datos que se esperan de salida.
-	 * @param learningRate
-	 *            Taza de aprendizaje
-	 * @param numero_epocas
-	 *            Por cuantas epocas se correrá el entrenamiento.
-	 */
-	public void entrenarRed(byte[][] entradas, double[][] salidas, double learningRate, int numero_epocas);
+    /**
+     * Metodo muy importante que entrena a la red neuronal. Recueren esta es una
+     * red de aprendizaje supervisado.
+     *
+     * @param entradas Datos de entrada
+     * @param salidas Datos que se esperan de salida.
+     * @param learningRate Taza de aprendizaje
+     * @param numero_epocas Por cuantas epocas se correrá el entrenamiento.
+     */
+    public void entrenarRed(byte[][] entradas, double[][] salidas, double learningRate, int numero_epocas);
 
-	/**
-	 * Este metodo "corre" la red, se usa ya cuando la red esta entrenada.
-	 *
-	 * @param entrada
-	 *            Datos de entrada.
-	 * @return Los datos de salida (puede que la red tenga más de una neurona de
-	 *         salida)
-	 */
-	public double[] clasificar(byte[] entrada);
+    /**
+     * Este metodo "corre" la red, se usa ya cuando la red esta entrenada.
+     *
+     * @param entrada Datos de entrada.
+     * @return Los datos de salida (puede que la red tenga más de una neurona de
+     * salida)
+     */
+    public double[] clasificar(byte[] entrada);
 
-	/**
-	 * Metodo muy importante que entrena a la red neuronal. Recueren esta es una
-	 * red de aprendizaje supervisado.
-	 *
-	 * @param entradas
-	 *            Datos de entrada
-	 * @param salidas
-	 *            Datos que se esperan de salida.
-	 * @param learningRate
-	 *            Taza de aprendizaje
-	 * @param error_threshold
-	 */
-	public void entrenarRed(byte[][] entradas, double[][] salidas, double learningRate, double error_threshold);
-
-	public int getSizeofCapaEntrada();
-
-	public int getSizeofCapaSalida();
-
-	public int[] getSizeofCapasOcultas();
+    /**
+     * Metodo muy importante que entrena a la red neuronal. Recueren esta es una
+     * red de aprendizaje supervisado.
+     *
+     * @param entradas Datos de entrada
+     * @param salidas Datos que se esperan de salida.
+     * @param learningRate Taza de aprendizaje
+     * @param error_threshold
+     */
+    public void entrenarRed(byte[][] entradas, double[][] salidas, double learningRate, double error_threshold);
+    
+    public int getSizeofCapaEntrada();
+    public int getSizeofCapaSalida();
+    public int[] getSizeofCapasOcultas();
 }

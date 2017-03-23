@@ -30,35 +30,34 @@ import java.awt.image.BufferedImage;
  */
 public abstract class ProcesadorImagen {
 
-	/**
-	 * Codigo de color de un pixel blanco
-	 */
-	public static final int BLANCO = -1;
-	/**
-	 * Codigo de color de un pixel negro (para una imagen binaria)
-	 */
-	public static final int NEGRO = 1;
+    /**
+     * Codigo de color de un pixel blanco
+     */
+    public static final int BLANCO = -1;
+    /**
+     * Codigo de color de un pixel negro (para una imagen binaria)
+     */
+    public static final int NEGRO = 1;
 
-	/**
-	 * Procesamiento de la imagen
-	 *
-	 * * @param imagen
-	 * 
-	 * @return imagenProcesada
-	 */
-	public abstract BufferedImage procesar(BufferedImage imagen);
+    /**
+     * Procesamiento de la imagen
+     *
+     * * @param imagen
+     * @return imagenProcesada
+     */
+    public abstract BufferedImage procesar(BufferedImage imagen);
 
-	/**
-	 * Rellena una imagen con el color dado
-	 *
-	 *
-	 * @param imagen
-	 * @param color
-	 */
-	public static void pintar(BufferedImage imagen, Color color) {
-		Graphics2D g = (Graphics2D) imagen.getGraphics();
-		g.setColor(color);
-		g.fillRect(0, 0, imagen.getWidth(), imagen.getHeight());
-		g.dispose();
-	}
+    /**
+     * Rellena una imagen con el color dado
+     *
+     *
+     * @param imagen
+     * @param color
+     */
+    public static void pintar(BufferedImage imagen, Color color) {
+        Graphics2D g = (Graphics2D) imagen.getGraphics();
+        g.setColor(color);
+        g.fillRect(0, 0, imagen.getWidth(), imagen.getHeight());
+        g.dispose();
+    }
 }
